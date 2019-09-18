@@ -1,0 +1,7 @@
+- name: numberOfIndent
+  type: Int
+
+- name: UserSelectedDarkMode
+  type: Bool
+  key: DarkMode
+
