@@ -11,7 +11,7 @@ case let cwd?:
 }
 let yamlFileName = "udg.yml"
 let url = URL(fileURLWithPath: path + "/" + yamlFileName)
-let parser = YamlParser(yamlFilePath: url)
+let parser = YAMLParser(yamlFilePath: url)
 do {
     let configurations = try parser.parse()
     print(configurations)
