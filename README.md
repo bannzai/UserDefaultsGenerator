@@ -23,11 +23,11 @@ $ udg generate
 
 Last, you can confirm result of udg command about generated swift code for managiment UserDefaults.
 ```swift
-case UDGIntKey: String {
+public enum UDGIntKey: String {
   case numberOfIndent
 }
 
-enum UDGBoolKey: String {
+public enum UDGBoolKey: String {
   case UserSelectedDarkMode = "DarkMode"
 }
 
@@ -42,7 +42,7 @@ extension UserDefaults {
   }
 }
 
-// MARK: Bool Extension
+// MARK: - Bool Extension
 extension UserDefaults {
   public func bool(forKey key: UDGBoolKey) -> Bool {
     return bool(forKey: key.rawValue)
@@ -52,6 +52,7 @@ extension UserDefaults {
     synchronize()
   }
 }
+
 ```
 
 ## Yaml Configuration 
