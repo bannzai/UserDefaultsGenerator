@@ -10,7 +10,7 @@ case let cwd?:
     path = cwd
 }
 let yamlFileName = "udg.yml"
-let url = URL(fileURLWithPath: path + "/" + yamlFileName)
+let url = URL(fileURLWithPath: path).appendingPathComponent(yamlFileName)
 let parser = YAMLParser(yamlFilePath: url)
 do {
     let configurations = try parser.parse()
@@ -18,7 +18,7 @@ do {
     let swiftFileName = "UserDefaultsGenerator.generated.swift"
     let generator = GeneratorImpl(
         configurations: configurations,
-        outputPath: URL(fileURLWithPath: path + "/" + swiftFileName)
+        outputPath: URL(fileURLWithPath: path).appendingPathComponent(swiftFileName)
     )
     try generator.generate()
 } catch {
