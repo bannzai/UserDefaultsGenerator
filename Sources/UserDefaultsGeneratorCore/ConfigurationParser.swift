@@ -29,7 +29,7 @@ public protocol ConfigurationParser {
     func parse() throws -> [Configuration]
 }
 
-public struct YamlParser: ConfigurationParser {
+public struct YAMLParser: ConfigurationParser {
     let yamlFilePath: URL
     public init(yamlFilePath: URL) {
         self.yamlFilePath = yamlFilePath

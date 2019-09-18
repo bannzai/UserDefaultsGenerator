@@ -28,7 +28,7 @@ let package = Package(
             name: "UserDefaultsGeneratorCore",
             dependencies: ["Yams"]),
         .testTarget(
-            name: "UserDefaultsGeneratorTests",
-            dependencies: ["UserDefaultsGenerator"]),
+            name: "UserDefaultsGeneratorCoreTests",
+            dependencies: ["UserDefaultsGeneratorCore"]),
     ]
 )
