@@ -27,9 +27,6 @@ let package = Package(
         .target(
             name: "UserDefaultsGeneratorCore",
             dependencies: ["Yams"]),
-        .target(
-            name: "UserDefaultsGenerator",
-            dependencies: []),
         .testTarget(
             name: "UserDefaultsGeneratorTests",
             dependencies: ["UserDefaultsGenerator"]),
