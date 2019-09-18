@@ -67,7 +67,7 @@ public struct GeneratorImpl: Generator {
 }
 
 extension Array {
-    func grouped<T: Comparable>(_ closure: (Element) -> (T)) -> [T: [Element]] {
+    func grouped<T: Hashable>(_ closure: (Element) -> (T)) -> [T: [Element]] {
          return reduce(into: [T: [Element]]()){ result, element in
             let key = closure(element)
             switch result[key] {
