@@ -6,23 +6,14 @@ public enum SwiftType: String, Decodable, Comparable {
         return lhs.rawValue < rhs.rawValue
     }
     
-    case int
-    case bool
-    
-    var typeName: String {
-        switch self {
-        case .int:
-            return "Int"
-        case .bool:
-            return "Bool"
-        }
-    }
+    case Int
+    case Bool
     
     var getterMethodName: String {
         switch self {
-        case .int:
+        case .Int:
             return "integer"
-        case .bool:
+        case .Bool:
             return "bool"
         }
     }

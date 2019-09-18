@@ -37,7 +37,7 @@ public struct GeneratorImpl: Generator {
             .map { grouped in
                 let values = grouped.value.map(caseMap).joined(separator: "\n")
                 return """
-                public enum UDG\(grouped.key.typeName)Key: String {
+                public enum UDG\(grouped.key.rawValue)Key: String {
                 \(values)
                 }
                 """
@@ -52,10 +52,10 @@ public struct GeneratorImpl: Generator {
                 let key = grouped.key
                 return """
                 extension UserDefaults {
-                    public func \(key.typeName)(forKey key: UDG\(key.typeName)Key) -> \(key.typeName) {
+                    public func \(key.rawValue)(forKey key: UDG\(key.rawValue)Key) -> \(key.rawValue) {
                         return \(key.getterMethodName)(forKey: key.rawValue)
                     }
-                    public func set(_ value: \(key.typeName), forKey key: UDG\(key.typeName)Key) {
+                    public func set(_ value: \(key.rawValue), forKey key: UDG\(key.rawValue)Key) {
                         set(value, forKey: key.rawValue)
                         synchronize()
                     }
