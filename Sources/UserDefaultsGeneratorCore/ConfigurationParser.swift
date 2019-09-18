@@ -1,9 +1,22 @@
 import Foundation
 import Yams
 
-public enum SwiftType: String, Decodable {
+public enum SwiftType: String, Decodable, Comparable {
+    public static func < (lhs: SwiftType, rhs: SwiftType) -> Bool {
+        return lhs.rawValue < rhs.rawValue
+    }
+    
     case Int
     case Bool
+    
+    var getterMethodName: String {
+        switch self {
+        case .Int:
+            return "integer"
+        case .Bool:
+            return "bool"
+        }
+    }
 }
 
 public struct Configuration: Decodable {
