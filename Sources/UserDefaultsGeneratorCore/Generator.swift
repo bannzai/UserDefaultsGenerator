@@ -24,10 +24,18 @@ public struct GeneratorImpl: Generator {
     }
     
     func enumDefinition() -> String {
+        let caseMap: (Configuration) -> String = { configuration in
+            switch configuration.key {
+            case nil:
+                return "case " + configuration.name
+            case let key?:
+                return "case " + configuration.name + " = " + "\"\(key)\""
+            }
+        }
         return configurations
             .grouped { $0.type }
             .map { grouped in
-                let values = grouped.value.map { "case " + $0.name }.joined(separator: "\n")
+                let values = grouped.value.map(caseMap).joined(separator: "\n")
                 return """
                 public enum UDG\(grouped.key.rawValue)Key: String {
                 \(values)
