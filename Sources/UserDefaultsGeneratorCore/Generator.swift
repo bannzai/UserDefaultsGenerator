@@ -7,63 +7,63 @@
 
 import Foundation
 
+let tab = "\t"
 public protocol Generator {
-    func generate() throws
+    func generate(configurations: [Configuration]) throws
 }
 
 public struct GeneratorImpl: Generator {
-    let configurations: [Configuration]
     let outputPath: URL
     public init(configurations: [Configuration], outputPath: URL) {
-        self.configurations = configurations
         self.outputPath = outputPath
     }
-    public func generate() throws {
-        let content = enumDefinition() + "\n" + userDefaultsExtensions()
+    public func generate(configurations: [Configuration]) throws {
+        let content = enumDefinition(configurations: configurations) + "\n" + userDefaultsExtensions(configurations: configurations)
         try content.write(to: outputPath, atomically: true, encoding: .utf8)
     }
     
-    func enumDefinition() -> String {
-        let caseMap: (Configuration) -> String = { configuration in
-            switch configuration.key {
-            case nil:
-                return "case " + configuration.name
-            case let key?:
-                return "case " + configuration.name + " = " + "\"\(key)\""
-            }
+}
+
+func enumDefinition(configurations: [Configuration]) -> String {
+    let caseMap: (Configuration) -> String = { configuration in
+        switch configuration.key {
+        case nil:
+            return "case " + configuration.name
+        case let key?:
+            return "case " + configuration.name + " = " + "\"\(key)\""
         }
-        return configurations
-            .grouped { $0.type }
-            .map { grouped in
-                let values = grouped.value.map(caseMap).joined(separator: "\n")
-                return """
-                public enum UDG\(grouped.key.rawValue)Key: String {
-                \(values)
-                }
-                """
-            }
-            .joined(separator: "\n")
     }
-    
-    func userDefaultsExtensions() -> String {
-        return configurations
-            .grouped { $0.type }
-            .map { grouped in
-                let key = grouped.key
-                return """
-                extension UserDefaults {
-                    public func \(key.rawValue)(forKey key: UDG\(key.rawValue)Key) -> \(key.rawValue) {
-                        return \(key.getterMethodName)(forKey: key.rawValue)
-                    }
-                    public func set(_ value: \(key.rawValue), forKey key: UDG\(key.rawValue)Key) {
-                        set(value, forKey: key.rawValue)
-                        synchronize()
-                    }
-                }
-                """
+    return configurations
+        .grouped { $0.type }
+        .map { grouped in
+            let values = grouped.value.map(caseMap).joined(separator: "\n")
+            return """
+            public enum UDG\(grouped.key.rawValue)Key: String {
+            \(tab)\(values)
             }
-            .joined(separator: "\n")
-    }
+            """
+        }
+        .joined(separator: "\n")
+}
+
+func userDefaultsExtensions(configurations: [Configuration]) -> String {
+    return configurations
+        .grouped { $0.type }
+        .map { grouped in
+            let key = grouped.key
+            return """
+            extension UserDefaults {
+            \(tab)public func \(key.getterMethodName)(forKey key: UDG\(key.rawValue)Key) -> \(key.rawValue) {
+            \(tab)\(tab)return \(key.getterMethodName)(forKey: key.rawValue)
+            \(tab)}
+            \(tab)public func set(_ value: \(key.rawValue), forKey key: UDG\(key.rawValue)Key) {
+            \(tab)\(tab)set(value, forKey: key.rawValue)
+            \(tab)\(tab)synchronize()
+            \(tab)}
+            }
+            """
+        }
+        .joined(separator: "\n")
 }
 
 extension Array {

@@ -20,7 +20,7 @@ do {
         configurations: configurations,
         outputPath: URL(fileURLWithPath: path).appendingPathComponent(swiftFileName)
     )
-    try generator.generate()
+    try generator.generate(configurations: configurations)
 } catch {
     print(error.localizedDescription)
     exit(1)
