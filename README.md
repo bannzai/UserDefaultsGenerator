@@ -8,11 +8,11 @@ First, you should prepare `udg.yml` file of below structure.
 
 ```yml
 - name: numberOfIndent
-type: Int
+  type: Int
 
 - name: UserSelectedDarkMode
-type: Bool
-key: DarkMode
+  type: Bool
+  key: DarkMode
 ```
 
 Next, and exec below command.
