@@ -7,8 +7,6 @@ jobs:
     runs-on: macOS-latest
     steps:
     - uses: actions/checkout@v1
-    - name: Run swift test
-      run: swift test
     - name: Run xcodebuild test and upload codecov
       run: |
           swift package generate-xcodeproj
