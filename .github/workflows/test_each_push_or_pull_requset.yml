@@ -11,7 +11,7 @@ jobs:
       run: |
           swift package generate-xcodeproj
           xcodebuild clean test -project UserDefaultsGenerator.xcodeproj \
-            -scheme UserDefaultsGeneratorCore \
+            -scheme UserDefaultsGenerator \
             -destination platform="macOS" \
             CODE_SIGN_IDENTITY="" \
             CODE_SIGNING_REQUIRED=NO \
