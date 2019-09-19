@@ -1,0 +1,24 @@
+name: test_each_pull_request
+
+on: [pull_request]
+
+jobs:
+  build:
+    runs-on: macOS-latest
+    steps:
+    - uses: actions/checkout@v1
+    - name: Run xcodebuild test and upload codecov
+      run: |
+          swift package generate-xcodeproj
+          xcodebuild clean test -project UserDefaultsGenerator.xcodeproj \
+            -scheme UserDefaultsGenerator \
+            -destination platform="macOS" \
+            CODE_SIGN_IDENTITY="" \
+            CODE_SIGNING_REQUIRED=NO \
+            ONLY_ACTIVE_ARCH=NO \
+            -enableCodeCoverage YES \
+            -derivedDataPath .build/derivedData
+          bash <(curl -s https://codecov.io/bash)
+
+
+
