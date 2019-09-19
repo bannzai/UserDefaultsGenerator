@@ -1,4 +1,4 @@
-name: test_each_push_or_pull_requset
+name: test_each_push
 
 on: [push]
 
