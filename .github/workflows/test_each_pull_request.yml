@@ -24,7 +24,7 @@ jobs:
       with:
         token: ${{secrets.CODECOV_TOKEN}}
           bash <(curl -s https://codecov.io/bash) -J '^UserDefaultsGeneratorCore$' \
-            -D .build/derivedData
+            -D .build/derivedData \
             -t "${token}"
 
 
