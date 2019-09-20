@@ -20,9 +20,9 @@ jobs:
             ONLY_ACTIVE_ARCH=NO 
         bash <(curl -s https://codecov.io/bash) -J '^UserDefaultsGeneratorCore$' \
           -D .build/derivedData \
-          -t "${token}"
+          -t "${CODECOV_TOKEN}"
       env:
-        token: ${{secrets.CODECOV_TOKEN}}
+        codecov_token: ${{secrets.CODECOV_TOKEN}}
 
 
 
