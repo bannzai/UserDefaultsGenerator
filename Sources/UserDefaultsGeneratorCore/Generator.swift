@@ -35,6 +35,7 @@ func enumDefinition(configurations: [Configuration]) -> String {
     }
     return configurations
         .grouped { $0.type }
+        .ordered()
         .map { grouped in
             let values = grouped.value.map(caseMap).joined(separator: "\n")
             return """
@@ -49,6 +50,7 @@ func enumDefinition(configurations: [Configuration]) -> String {
 func userDefaultsExtensions(configurations: [Configuration]) -> String {
     return configurations
         .grouped { $0.type }
+        .ordered()
         .map { grouped in
             let key = grouped.key
             return """
@@ -64,18 +66,4 @@ func userDefaultsExtensions(configurations: [Configuration]) -> String {
             """
         }
         .joined(separator: "\n")
-}
-
-extension Array {
-    func grouped<T: Hashable>(_ closure: (Element) -> (T)) -> [T: [Element]] {
-         return reduce(into: [T: [Element]]()){ result, element in
-            let key = closure(element)
-            switch result[key] {
-            case nil:
-                result[key] = [element]
-            case let a?:
-                result[key] = a + [element]
-            }
-        }
-    }
 }
