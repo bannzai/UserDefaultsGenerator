@@ -35,6 +35,7 @@ func enumDefinition(configurations: [Configuration]) -> String {
     }
     return configurations
         .grouped { $0.type }
+        .ordered()
         .map { grouped in
             let values = grouped.value.map(caseMap).joined(separator: "\n")
             return """
@@ -49,6 +50,7 @@ func enumDefinition(configurations: [Configuration]) -> String {
 func userDefaultsExtensions(configurations: [Configuration]) -> String {
     return configurations
         .grouped { $0.type }
+        .ordered()
         .map { grouped in
             let key = grouped.key
             return """
