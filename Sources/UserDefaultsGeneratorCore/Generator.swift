@@ -65,17 +65,3 @@ func userDefaultsExtensions(configurations: [Configuration]) -> String {
         }
         .joined(separator: "\n")
 }
-
-extension Array {
-    func grouped<T: Hashable>(_ closure: (Element) -> (T)) -> [T: [Element]] {
-         return reduce(into: [T: [Element]]()){ result, element in
-            let key = closure(element)
-            switch result[key] {
-            case nil:
-                result[key] = [element]
-            case let a?:
-                result[key] = a + [element]
-            }
-        }
-    }
-}
