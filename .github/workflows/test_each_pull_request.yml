@@ -20,12 +20,12 @@ jobs:
             ONLY_ACTIVE_ARCH=NO 
 
     - name: Upload coverage to Codecov  
-      with:
-        token: ${{secrets.CODECOV_TOKEN}}
       run:
         bash <(curl -s https://codecov.io/bash) -J '^UserDefaultsGeneratorCore$' \
           -D .build/derivedData \
           -t "${token}"
+      env:
+        token: ${{secrets.CODECOV_TOKEN}}
 
 
 
