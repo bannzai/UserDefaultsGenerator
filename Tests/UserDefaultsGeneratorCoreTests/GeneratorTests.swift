@@ -14,7 +14,7 @@ class GeneratorTests: XCTestCase {
     func testEnumDefinition() {
         XCTContext.runActivity(named: "When key is nil") { (_) in
             let configurations: [Configuration] = [
-                Configuration(name: "enumKey", type: .Int, key: nil),
+                Configuration(name: "enumKey", type: .int, key: nil),
             ]
             let got = enumDefinition(configurations: configurations)
             let expected = """
@@ -26,7 +26,7 @@ public enum UDGIntKey: String {
         }
         XCTContext.runActivity(named: "When configuration for custom key") { (_) in
             let configurations: [Configuration] = [
-                Configuration(name: "enumKey", type: .Bool, key: "Custom"),
+                Configuration(name: "enumKey", type: .bool, key: "Custom"),
             ]
             let got = enumDefinition(configurations: configurations)
             let expected = """
@@ -41,7 +41,7 @@ public enum UDGIntKey: String {
     func testUserDefaultsExtensions() {
         XCTContext.runActivity(named: "When swift type is Int") { (_) in
             let configurations: [Configuration] = [
-                Configuration(name: "enumKey", type: .Int, key: nil),
+                Configuration(name: "enumKey", type: .int, key: nil),
             ]
             let got = userDefaultsExtensions(configurations: configurations)
             let expected = """
@@ -59,7 +59,7 @@ public enum UDGIntKey: String {
         }
         XCTContext.runActivity(named: "When swift type is Bool") { (_) in
             let configurations: [Configuration] = [
-                Configuration(name: "enumKey", type: .Bool, key: "Custom"),
+                Configuration(name: "enumKey", type: .bool, key: "Custom"),
             ]
             let got = userDefaultsExtensions(configurations: configurations)
             let expected = """
