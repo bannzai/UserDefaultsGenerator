@@ -18,8 +18,14 @@ jobs:
             CODE_SIGN_IDENTITY="" \
             CODE_SIGNING_REQUIRED=NO \
             ONLY_ACTIVE_ARCH=NO 
+
+    - name: Upload coverage to Codecov  
+      uses: codecov/codecov-action@v1.0.2
+      with:
+        token: ${{secrets.CODECOV_TOKEN}}
           bash <(curl -s https://codecov.io/bash) -J '^UserDefaultsGeneratorCore$' \
             -D .build/derivedData
+            -t "${token}"
 
 
 
