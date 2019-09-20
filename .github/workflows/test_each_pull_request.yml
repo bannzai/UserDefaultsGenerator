@@ -10,14 +10,14 @@ jobs:
     - name: Run xcodebuild test and upload codecov
       run: |
           swift package generate-xcodeproj
-          xcodebuild clean test -project UserDefaultsGenerator.xcodeproj \
+          xcodebuild clean build test -project UserDefaultsGenerator.xcodeproj \
             -scheme UserDefaultsGenerator \
             -destination platform="macOS" \
+            -enableCodeCoverage YES \
+            -derivedDataPath .build/derivedData \
             CODE_SIGN_IDENTITY="" \
             CODE_SIGNING_REQUIRED=NO \
-            ONLY_ACTIVE_ARCH=NO \
-            -enableCodeCoverage YES \
-            -derivedDataPath .build/derivedData
+            ONLY_ACTIVE_ARCH=NO 
           bash <(curl -s https://codecov.io/bash)
 
 
