@@ -25,7 +25,7 @@ jobs:
           -D .build/derivedData
       env:
         codecov_token: ${{secrets.CODECOV_TOKEN}}
-        abc: ${{secrets.abc}}
+        ABC: ${{secrets.abc}}
 
 
 
