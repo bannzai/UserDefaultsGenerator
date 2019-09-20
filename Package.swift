@@ -16,7 +16,7 @@ let package = Package(
         // Dependencies declare other packages that this package depends on.
         // .package(url: /* package url */, from: "1.0.0"),
       .package(url: "https://github.com/jpsim/Yams.git", from: Version(2, 0, 0)),
-
+      .package(url: "https://github.com/SwiftGen/StencilSwiftKit.git", from: Version(2, 7, 2)),
     ],
     targets: [
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.
@@ -26,7 +26,7 @@ let package = Package(
             dependencies: ["UserDefaultsGeneratorCore"]),
         .target(
             name: "UserDefaultsGeneratorCore",
-            dependencies: ["Yams"]),
+            dependencies: ["Yams", "StencilSwiftKit"]),
         .testTarget(
             name: "UserDefaultsGeneratorCoreTests",
             dependencies: ["UserDefaultsGeneratorCore"]),
