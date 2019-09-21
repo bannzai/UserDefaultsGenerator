@@ -57,3 +57,24 @@ key: DarkMode
         try content.write(to: URL(fileURLWithPath: currentWorkingDirectory()), atomically: true, encoding: .utf8)
     }
 }
+
+public struct HelpRunner: Runner  {
+    public static let commandName: String = "help"
+    
+    public static func help() -> String {
+        return """
+Usage:
+  udg [command]
+
+Available Commands:
+  generate    generate [--output $OUTPUT_PATH] [--config $CONFIG_PATH] [--template $TEMPLATE_PATH]
+  setup       setup can be generated example config file
+  help        Help about any command
+"""
+    }
+    
+    public init() { }
+    public func run() throws {
+        print(HelpRunner.help())
+    }
+}
