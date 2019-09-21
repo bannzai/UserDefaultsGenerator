@@ -10,15 +10,12 @@ import StencilSwiftKit
 
 let tab = "\t"
 public protocol Generator {
-    func generate(configurations: [Configuration]) throws
+    func generate(outputPath: URL, configurations: [Configuration]) throws
 }
 
 public struct GeneratorImpl: Generator {
-    let outputPath: URL
-    public init(outputPath: URL) {
-        self.outputPath = outputPath
-    }
-    public func generate(configurations: [Configuration]) throws {
+    public init(){ }
+    public func generate(outputPath: URL, configurations: [Configuration]) throws {
         let content = """
         import Foundation
         \(enumDefinition(configurations: configurations))
