@@ -35,6 +35,8 @@ public struct GenerateRunnerArgumentParser: RunnerArgumentParser {
         }
     }
     
+    public init() { }
+    
     public func parse() -> (outputURL: URL, configPath: URL, templatePath: URL?) {
         let arguments = ProcessInfo.processInfo.arguments
         let options = arguments
