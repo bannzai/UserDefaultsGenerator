@@ -16,9 +16,8 @@ See below
 """)
     exit(1)
 }
+
 let subCommand = ProcessInfo.processInfo.arguments[1]
-
-
 guard let command = runners.first(where: { $0.commandName == subCommand }) else {
     print("""
 Unexpected sub command \(subCommand)
