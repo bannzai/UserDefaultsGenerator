@@ -16,7 +16,7 @@ enum TemplateType {
         case .enum:
             return """
             {% for groupedConfiguration in groupedConfigurations where not groupedConfigurations.count == 0 %}
-            public enum UDG{{ groupedConfiguration.type.rawValue }}Key: String {
+            public enum UDG{{ groupedConfiguration.type.typeName }}Key: String {
             {% for configuration in groupedConfiguration.configuration where not groupedConfiguration.configuration.count == 0 %}
             \(tab)case {% if not configuration.name == "" %}{{ configuration.key }} {% else %} {{ configuration.key }} = "{{ configuration.name }}" {% endif %}
             {% endfor %}
@@ -28,10 +28,10 @@ enum TemplateType {
             {% for groupedConfiguration in groupedConfigurations where not groupedConfigurations.count == 0 %}
             {% set type groupedConfigurations.type %}
             extension UserDefaults {
-            \(tab)public func {{ type.getterName }}(forKey key: UDG{{ type.rawValue }}Key) -> {{ type.rawValue }} {
+            \(tab)public func {{ type.getterName }}(forKey key: UDG{{ type.typeName }}Key) -> {{ type.typeName }} {
             \(tab)\(tab)return {{ type.getterMethodName }}(forKey: key.rawValue)
             \(tab)}
-            \(tab)public func set(_ value: {{ type.rawValue }}, forKey key: UDG{{ type.rawValue }}Key) -> {{ type.rawValue }} {
+            \(tab)public func set(_ value: {{ type.typeName }}, forKey key: UDG{{ type.typeName }}Key) -> {{ type.typeName }} {
             \(tab)\(tab)set(value, forKey: key.rawValue)
             \(tab)\(tab)synchronize()
             \(tab)}
