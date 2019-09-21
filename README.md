@@ -94,6 +94,13 @@ Document: https://developer.apple.com/documentation/foundation/userdefaults
 
 [See also, SwiftType.swift](./Sources/UserDefaultsGeneratorCore/SwiftType.swift)
 
+## Install
+It is recommended to use `mint`
+
+```shell
+$ mint install bannzai/UserDefaultsGenerator
+```
+
 ## LICENSE
 UserDefaultsGenerator is available under the MIT license. See the LICENSE file for more info.
 
