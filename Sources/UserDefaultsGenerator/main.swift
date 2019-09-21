@@ -14,10 +14,8 @@ let url = URL(fileURLWithPath: path).appendingPathComponent(yamlFileName)
 let parser = YAMLParser(yamlFilePath: url)
 do {
     let configurations = try parser.parse()
-    print(configurations)
     let swiftFileName = "UserDefaultsGenerator.generated.swift"
     let generator = GeneratorImpl(
-        configurations: configurations,
         outputPath: URL(fileURLWithPath: path).appendingPathComponent(swiftFileName)
     )
     try generator.generate(configurations: configurations)

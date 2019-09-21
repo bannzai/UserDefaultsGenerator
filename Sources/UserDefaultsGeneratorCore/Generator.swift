@@ -15,7 +15,7 @@ public protocol Generator {
 
 public struct GeneratorImpl: Generator {
     let outputPath: URL
-    public init(configurations: [Configuration], outputPath: URL) {
+    public init(outputPath: URL) {
         self.outputPath = outputPath
     }
     public func generate(configurations: [Configuration]) throws {
