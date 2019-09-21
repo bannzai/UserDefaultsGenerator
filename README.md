@@ -24,7 +24,7 @@ $ udg generate
 Last, you can confirm result of udg command about generated swift code for managiment UserDefaults.
 ```swift
 public enum UDGArrayKey: String {
-	case XYZ
+  case XYZ
 }
 public enum UDGBoolKey: String {
   case UserSelectedDarkMode = "DarkMode"
@@ -35,13 +35,13 @@ public enum UDGIntKey: String {
 
 // MARK: - UserDefaults Array Extension
 extension UserDefaults {
-	public func array(forKey key: UDGArrayKey) -> [Any]? {
-		return array(forKey: key.rawValue)
-	}
-	public func set(_ value: [Any]?, forKey key: UDGArrayKey) {
-		set(value, forKey: key.rawValue)
-		synchronize()
-	}
+  public func array(forKey key: UDGArrayKey) -> [Any]? {
+    return array(forKey: key.rawValue)
+  }
+  public func set(_ value: [Any]?, forKey key: UDGArrayKey) {
+    set(value, forKey: key.rawValue)
+    synchronize()
+  }
 }
 // MARK: - Bool Extension
 extension UserDefaults {
