@@ -21,10 +21,6 @@ public enum SwiftType: String, Decodable {
     case double = "Double"
     
     var typeName: String {
-        return rawValue
-    }
-    
-    var returnTypeName: String {
         switch self {
         case .array:
             return "[Any]"
@@ -33,8 +29,12 @@ public enum SwiftType: String, Decodable {
         case .stringArray:
             return "[String]"
         case .any, .url, .string, .data, .bool, .int, .float, .double:
-            return typeName
+            return aliasName
         }
+    }
+    
+    var aliasName: String {
+        return rawValue
     }
     
     var isOptional: Bool {
