@@ -26,12 +26,12 @@ enum TemplateType {
         case .extension:
             return """
             {% for groupedConfiguration in groupedConfigurations where not groupedConfigurations.count == 0 %}
-            {% set type groupedConfigurations.type %}
+            {% set gc groupedConfiguration %}
             extension UserDefaults {
-            \(tab)public func {{ type.getterName }}(forKey key: UDG{{ type.typeName }}Key) -> {{ type.typeName }} {
-            \(tab)\(tab)return {{ type.getterMethodName }}(forKey: key.rawValue)
+            \(tab)public func {{ gc.getterMethodName }}(forKey key: UDG{{ gc.typeName }}Key) -> {{ gc.typeName }} {
+            \(tab)\(tab)return {{ gc.getterMethodName }}(forKey: key.rawValue)
             \(tab)}
-            \(tab)public func set(_ value: {{ type.typeName }}, forKey key: UDG{{ type.typeName }}Key) -> {{ type.typeName }} {
+            \(tab)public func set(_ value: {{ gc.typeName }}, forKey key: UDG{{ gc.typeName }}Key) {
             \(tab)\(tab)set(value, forKey: key.rawValue)
             \(tab)\(tab)synchronize()
             \(tab)}
