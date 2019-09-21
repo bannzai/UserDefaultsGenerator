@@ -29,7 +29,7 @@ enum TemplateType {
             {% set gc groupedConfiguration %}
             // MARK: - UserDefaults {{ gc.typeName }} Extension
             extension UserDefaults {
-            \(tab)public func {{ gc.getterMethodName }}(forKey key: UDG{{ gc.typeName }}Key) -> {{ gc.typeName }}{% if gc.isOptionalType %}?{% endif %} {
+            \(tab)public func {{ gc.getterMethodName }}(forKey key: UDG{{ gc.typeName }}Key) -> {{ gc.returnTypeName }}{% if gc.isOptionalType %}?{% endif %} {
             \(tab)\(tab)return {{ gc.getterMethodName }}(forKey: key.rawValue)
             \(tab)}
             \(tab)public func set(_ value: {{ gc.typeName }}{% if gc.isOptionalType %}?{% endif %}, forKey key: UDG{{ gc.typeName }}Key) {

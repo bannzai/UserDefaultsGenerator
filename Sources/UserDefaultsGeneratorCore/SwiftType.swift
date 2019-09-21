@@ -24,7 +24,7 @@ public enum SwiftType: String, Decodable {
         return rawValue
     }
     
-    var returnName: String {
+    var returnTypeName: String {
         switch self {
         case .array:
             return "[Any]"
