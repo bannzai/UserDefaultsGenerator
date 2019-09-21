@@ -33,6 +33,15 @@ public struct GenerateRunnerArgumentParser: RunnerArgumentParser {
         var option: String {
             return "--\(rawValue)"
         }
+        
+        init?(option: String) {
+            switch Option.allCases.first(where: { $0.option == option }) {
+            case nil:
+                return nil
+            case let option?:
+                self = option
+            }
+        }
     }
     
     public init() { }
@@ -42,7 +51,7 @@ public struct GenerateRunnerArgumentParser: RunnerArgumentParser {
         let options = arguments
             .enumerated()
             .filter { Option.allCases.map { $0.option }.contains($1) }
-            .map { (offset: $0, option: Option(rawValue: $1)!) }
+            .map { (offset: $0, option: Option(option: $1)!) }
             .map { (offset: $0, option: $1, value: arguments[$0 + 1]) }
         
         let cwd = URL(fileURLWithPath: currentWorkingDirectory())
