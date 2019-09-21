@@ -25,18 +25,26 @@ public struct GeneratorImpl: Generator {
     
 }
 
+private func buildArguments(_ configurations: [Configuration]) -> [String: Any] {
+    return [
+        "groupedConfigurations": configurations.grouped { $0.type }.ordered()
+    ]
+}
+
 func enumDefinition(configurations: [Configuration]) -> String {
-    return try! StencilSwiftTemplate(templateString: TemplateType.enum.template, environment: nil, name: "enum.swift.stencil")
-        .render([
-            "groupedConfigurations": configurations.grouped { $0.type }.ordered()
-            ]
-    )
+    return try! StencilSwiftTemplate(
+        templateString: TemplateType.enum.template,
+        environment: stencilSwiftEnvironment(),
+        name: "enum.swift.stencil"
+        )
+        .render(buildArguments(configurations))
 }
 
 func userDefaultsExtensions(configurations: [Configuration]) -> String {
-    return try! StencilSwiftTemplate(templateString: TemplateType.extension.template, environment: nil, name: "extension.swift.stencil")
-        .render([
-            "groupedConfigurations": configurations.grouped { $0.type }.ordered()
-            ]
-    )
+    return try! StencilSwiftTemplate(
+        templateString: TemplateType.extension.template,
+        environment: stencilSwiftEnvironment(),
+        name: "extension.swift.stencil"
+        )
+        .render(buildArguments(configurations))
 }
