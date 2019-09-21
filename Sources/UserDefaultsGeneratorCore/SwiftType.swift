@@ -24,6 +24,19 @@ public enum SwiftType: String, Decodable {
         return rawValue
     }
     
+    var returnName: String {
+        switch self {
+        case .array:
+            return "[Any]"
+        case .dictionary:
+            return "[String: Any]"
+        case .stringArray:
+            return "[String]"
+        case .any, .url, .string, .data, .bool, .int, .float, .double:
+            return typeName
+        }
+    }
+    
     var isOptional: Bool {
         switch self {
         case .any, .url, .array, .dictionary, .string, .stringArray, .data:
