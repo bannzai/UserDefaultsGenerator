@@ -18,9 +18,11 @@ class GeneratorTests: XCTestCase {
             ]
             let got = enumDefinition(configurations: configurations)
             let expected = """
+
 public enum UDGIntKey: String {
 \(tab)case enumKey
 }
+
 """
             XCTAssertEqual(got, expected)
         }
@@ -30,9 +32,11 @@ public enum UDGIntKey: String {
             ]
             let got = enumDefinition(configurations: configurations)
             let expected = """
+
             public enum UDGBoolKey: String {
             \(tab)case enumKey = "Custom"
             }
+
             """
             XCTAssertEqual(got, expected)
         }

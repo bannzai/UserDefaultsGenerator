@@ -15,10 +15,10 @@ enum TemplateType {
         switch self {
         case .enum:
             return """
-            {% for groupedConfiguration in groupedConfigurations where not groupedConfigurations.count == 0 %}
-            public enum UDG{{ groupedConfiguration.type.typeName }}Key: String {
-            {% for configuration in groupedConfiguration.configuration where not groupedConfiguration.configuration.count == 0 %}
-            \(tab)case {% if not configuration.name == "" %}{{ configuration.key }} {% else %} {{ configuration.key }} = "{{ configuration.name }}" {% endif %}
+            {% for groupuedConfiguration in groupedConfigurations where not groupedConfigurations.count == 0 %}
+            public enum UDG{{ groupuedConfiguration.typeName }}Key: String {
+            {% for configuration in groupuedConfiguration.configurations where not groupedConfiguration.configurations.count == 0 %}
+            \(tab)case {% if configuration.key == "" %}{{ configuration.name }}{% else %}{{ configuration.name }} = "{{ configuration.key }}"{% endif %}
             {% endfor %}
             }
             {% endfor %}

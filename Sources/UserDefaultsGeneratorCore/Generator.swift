@@ -26,8 +26,26 @@ public struct GeneratorImpl: Generator {
 }
 
 private func buildArguments(_ configurations: [Configuration]) -> [String: Any] {
+    let groupedConfigurations = configurations.grouped { $0.type }.ordered()
     return [
-        "groupedConfigurations": configurations.grouped { $0.type }.ordered()
+        "groupedConfigurations": groupedConfigurations
+            .map { (key, configurations) -> [String: Any] in
+                return [
+                    "key": key,
+                    "typeName": key.typeName,
+                    "getterMethodName": key.getterMethodName,
+                    "configurations": configurations
+                        .map { configuration -> [String: Any] in
+                            return [
+                                    "name": configuration.name,
+                                    "key": configuration.key ?? ""
+                                ]
+                            
+                    }
+                ]
+                
+        }
+        
     ]
 }
 
