@@ -7,17 +7,8 @@ jobs:
     runs-on: macOS-latest
     steps:
     - uses: actions/checkout@v1
-    - name: Run xcodebuild test and upload codecov
-      run: |
-          swift package generate-xcodeproj
-          xcodebuild clean build test -project UserDefaultsGenerator.xcodeproj \
-            -scheme UserDefaultsGenerator \
-            -destination platform="macOS" \
-            -enableCodeCoverage YES \
-            -derivedDataPath .build/derivedData \
-            CODE_SIGN_IDENTITY="" \
-            CODE_SIGNING_REQUIRED=NO \
-            ONLY_ACTIVE_ARCH=NO
+    - name: Run xcodebuild test 
+      run: make test
     - name: Upload codecov
       run: |
         bash <(curl -s https://codecov.io/bash) -J '^UserDefaultsGeneratorCore$' \
