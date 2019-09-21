@@ -23,6 +23,15 @@ public enum SwiftType: String, Decodable {
     var typeName: String {
         return rawValue
     }
+    
+    var isOptional: Bool {
+        switch self {
+        case .any, .url, .array, .dictionary, .string, .stringArray, .data:
+            return true
+        case .bool, .int, .float, .double:
+            return false
+        }
+    }
 
     var getterMethodName: String {
         switch self {

@@ -64,7 +64,7 @@ public enum UDGIntKey: String {
             """
             XCTAssertEqual(got, expected)
         }
-        XCTContext.runActivity(named: "When swift type is Bool") { (_) in
+        XCTContext.runActivity(named: "When swift type is Bool. And add custom enum key name") { (_) in
             let configurations: [Configuration] = [
                 Configuration(name: "enumKey", type: .bool, key: "Custom"),
             ]
@@ -82,6 +82,27 @@ public enum UDGIntKey: String {
             \(tab)}
             }
 
+            """
+            XCTAssertEqual(got, expected)
+        }
+        XCTContext.runActivity(named: "When swift type is Any. Any is optional type") { (_) in
+            let configurations: [Configuration] = [
+                Configuration(name: "enumKey", type: .any, key: nil),
+            ]
+            let got = userDefaultsExtensions(configurations: configurations)
+            let expected = """
+            
+            // MARK: - UserDefaults Any Extension
+            extension UserDefaults {
+            \(tab)public func object(forKey key: UDGAnyKey) -> Any? {
+            \(tab)\(tab)return object(forKey: key.rawValue)
+            \(tab)}
+            \(tab)public func set(_ value: Any?, forKey key: UDGAnyKey) {
+            \(tab)\(tab)set(value, forKey: key.rawValue)
+            \(tab)\(tab)synchronize()
+            \(tab)}
+            }
+            
             """
             XCTAssertEqual(got, expected)
         }
