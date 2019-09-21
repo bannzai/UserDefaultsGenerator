@@ -48,13 +48,15 @@ public struct SetupRunner: Runner  {
     public func run() throws {
         let content = """
 - name: numberOfIndent
-type: Int
+  type: Int
 
 - name: UserSelectedDarkMode
-type: Bool
-key: DarkMode
+  type: Bool
+  key: DarkMode
+
+
 """
-        try content.write(to: URL(fileURLWithPath: currentWorkingDirectory()), atomically: true, encoding: .utf8)
+        try content.write(to: URL(fileURLWithPath: currentWorkingDirectory()).appendingPathComponent("udg.yml"), atomically: true, encoding: .utf8)
     }
 }
 
