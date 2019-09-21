@@ -37,7 +37,7 @@ public struct GenerateRunner: Runner {
     public func run() throws {
         let options = argumentParser.parse()
         let configurations = try configurationParser.parse(yamlFilePath: options.configPath)
-        try generator.generate(outputPath: options.outputURL, configurations: configurations)
+        try generator.generate(outputPath: options.outputURL, templatePath: options.templatePath, configurations: configurations)
     }
 }
 

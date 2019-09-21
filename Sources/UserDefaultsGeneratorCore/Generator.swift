@@ -10,17 +10,29 @@ import StencilSwiftKit
 
 let tab = "\t"
 public protocol Generator {
-    func generate(outputPath: URL, configurations: [Configuration]) throws
+    func generate(outputPath: URL, templatePath: URL?, configurations: [Configuration]) throws
 }
 
 public struct GeneratorImpl: Generator {
     public init(){ }
-    public func generate(outputPath: URL, configurations: [Configuration]) throws {
-        let content = """
-        import Foundation
-        \(enumDefinition(configurations: configurations))
-        \(userDefaultsExtensions(configurations: configurations))
-        """
+    public func generate(outputPath: URL, templatePath: URL?, configurations: [Configuration]) throws {
+        let content: String
+        switch templatePath {
+        case nil:
+            content = """
+            import Foundation
+            \(enumDefinition(configurations: configurations))
+            \(userDefaultsExtensions(configurations: configurations))
+            """
+        case let templatePath?:
+            let template = try String(contentsOf: templatePath)
+            content = try StencilSwiftTemplate(
+                templateString: template,
+                environment: stencilSwiftEnvironment(),
+                name: "udg.user_defined.swift.stencil"
+                )
+                .render(buildArguments(configurations))
+        }
         try content.write(to: outputPath, atomically: true, encoding: .utf8)
     }
     
