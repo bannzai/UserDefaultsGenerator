@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import StencilSwiftKit
 
 let tab = "\t"
 public protocol Generator {
@@ -25,45 +26,17 @@ public struct GeneratorImpl: Generator {
 }
 
 func enumDefinition(configurations: [Configuration]) -> String {
-    let caseMap: (Configuration) -> String = { configuration in
-        switch configuration.key {
-        case nil:
-            return "case " + configuration.name
-        case let key?:
-            return "case " + configuration.name + " = " + "\"\(key)\""
-        }
-    }
-    return configurations
-        .grouped { $0.type }
-        .ordered()
-        .map { grouped in
-            let values = grouped.value.map(caseMap).joined(separator: "\n")
-            return """
-            public enum UDG\(grouped.key.rawValue)Key: String {
-            \(tab)\(values)
-            }
-            """
-        }
-        .joined(separator: "\n")
+    return try! StencilSwiftTemplate(templateString: TemplateType.enum.template, environment: nil, name: "enum.swift.stencil")
+        .render([
+            "groupedConfigurations": configurations.grouped { $0.type }.ordered()
+            ]
+    )
 }
 
 func userDefaultsExtensions(configurations: [Configuration]) -> String {
-    return configurations
-        .grouped { $0.type }
-        .ordered()
-        .map { grouped in
-            let key = grouped.key
-            return """
-            extension UserDefaults {
-            \(tab)public func \(key.getterMethodName)(forKey key: UDG\(key.rawValue)Key) -> \(key.rawValue) {
-            \(tab)\(tab)return \(key.getterMethodName)(forKey: key.rawValue)
-            \(tab)}
-            \(tab)public func set(_ value: \(key.rawValue), forKey key: UDG\(key.rawValue)Key) {
-            \(tab)\(tab)set(value, forKey: key.rawValue)
-            \(tab)\(tab)synchronize()
-            \(tab)}
-            }
-            """
-        }
-        .joined(separator: "\n")
+    return try! StencilSwiftTemplate(templateString: TemplateType.extension.template, environment: nil, name: "extension.swift.stencil")
+        .render([
+            "groupedConfigurations": configurations.grouped { $0.type }.ordered()
+            ]
+    )
 }
