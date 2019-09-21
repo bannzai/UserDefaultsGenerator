@@ -21,6 +21,7 @@ enum TemplateType {
             \(tab)case {% if not configuration.name == "" %}{{ configuration.key }} {% else %} {{ configuration.key }} = "{{ configuration.name }}" {% endif %}
             {% endfor %}
             }
+            {% endfor %}
             """
         case .extension:
             return """
@@ -35,6 +36,7 @@ enum TemplateType {
             \(tab)\(tab)synchronize()
             \(tab)}
             }
+            {% endfor %}
             """
         }
     }
