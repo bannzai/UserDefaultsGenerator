@@ -40,6 +40,24 @@ public enum UDGIntKey: String {
             """
             XCTAssertEqual(got, expected)
         }
+        XCTContext.runActivity(named: "When configuration for aliasName != typeName") { (_) in
+            
+            let type = SwiftType.array
+            XCTAssert(type.aliasName != type.typeName)
+            
+            let configurations: [Configuration] = [
+                Configuration(name: "enumKey", type: type, key: nil),
+            ]
+            let got = enumDefinition(configurations: configurations)
+            let expected = """
+            
+            public enum UDGArrayKey: String {
+            \(tab)case enumKey
+            }
+            
+            """
+            XCTAssertEqual(got, expected)
+        }
     }
     
     func testUserDefaultsExtensions() {
@@ -98,6 +116,27 @@ public enum UDGIntKey: String {
             \(tab)\(tab)return object(forKey: key.rawValue)
             \(tab)}
             \(tab)public func set(_ value: Any?, forKey key: UDGAnyKey) {
+            \(tab)\(tab)set(value, forKey: key.rawValue)
+            \(tab)\(tab)synchronize()
+            \(tab)}
+            }
+            
+            """
+            XCTAssertEqual(got, expected)
+        }
+        XCTContext.runActivity(named: "When swift type is Array. Array return type name is [Any]") { (_) in
+            let configurations: [Configuration] = [
+                Configuration(name: "enumKey", type: .array, key: nil),
+            ]
+            let got = userDefaultsExtensions(configurations: configurations)
+            let expected = """
+            
+            // MARK: - UserDefaults Array Extension
+            extension UserDefaults {
+            \(tab)public func array(forKey key: UDGArrayKey) -> [Any]? {
+            \(tab)\(tab)return array(forKey: key.rawValue)
+            \(tab)}
+            \(tab)public func set(_ value: [Any]?, forKey key: UDGArrayKey) {
             \(tab)\(tab)set(value, forKey: key.rawValue)
             \(tab)\(tab)synchronize()
             \(tab)}

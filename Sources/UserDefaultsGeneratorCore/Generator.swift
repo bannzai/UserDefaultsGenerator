@@ -37,6 +37,7 @@ private func buildArguments(_ configurations: [Configuration]) -> [String: Any] 
                 return [
                     "key": swiftType,
                     "typeName": swiftType.typeName,
+                    "aliasName": swiftType.aliasName,
                     "isOptionalType": swiftType.isOptional,
                     "getterMethodName": swiftType.getterMethodName,
                     "configurations": configurations
