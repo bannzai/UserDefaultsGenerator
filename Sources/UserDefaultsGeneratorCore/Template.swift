@@ -27,6 +27,7 @@ enum TemplateType {
             return """
             {% for groupedConfiguration in groupedConfigurations where not groupedConfigurations.count == 0 %}
             {% set gc groupedConfiguration %}
+            // MARK: - UserDefaults {{ gc.typeName }} Extension
             extension UserDefaults {
             \(tab)public func {{ gc.getterMethodName }}(forKey key: UDG{{ gc.typeName }}Key) -> {{ gc.typeName }} {
             \(tab)\(tab)return {{ gc.getterMethodName }}(forKey: key.rawValue)

@@ -50,6 +50,7 @@ public enum UDGIntKey: String {
             let got = userDefaultsExtensions(configurations: configurations)
             let expected = """
 
+            // MARK: - UserDefaults Int Extension
             extension UserDefaults {
             \(tab)public func integer(forKey key: UDGIntKey) -> Int {
             \(tab)\(tab)return integer(forKey: key.rawValue)
@@ -70,6 +71,7 @@ public enum UDGIntKey: String {
             let got = userDefaultsExtensions(configurations: configurations)
             let expected = """
             
+            // MARK: - UserDefaults Bool Extension
             extension UserDefaults {
             \(tab)public func bool(forKey key: UDGBoolKey) -> Bool {
             \(tab)\(tab)return bool(forKey: key.rawValue)
