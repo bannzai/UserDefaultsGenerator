@@ -45,25 +45,27 @@ public struct GenerateRunnerArgumentParser: RunnerArgumentParser {
             .map { (offset: $0, option: Option(rawValue: $1)!) }
             .map { (offset: $0, option: $1, value: arguments[$0 + 1]) }
         
+        let cwd = URL(fileURLWithPath: currentWorkingDirectory())
+        
         let outputURL: URL
         if let option = options.first (where: { $0.option == .output }) {
-            outputURL = URL(fileURLWithPath: option.value)
+            outputURL = cwd.appendingPathComponent(option.value)
         } else {
             let swiftFileName = "UserDefaultsGenerator.generated.swift"
-            outputURL = URL(fileURLWithPath: currentWorkingDirectory()).appendingPathComponent(swiftFileName)
+            outputURL = cwd.appendingPathComponent(swiftFileName)
         }
         
         let configPath: URL
         if let option = options.first(where: { $0.option == .config }) {
-            configPath = URL(fileURLWithPath: option.value)
+            configPath = cwd.appendingPathComponent(option.value)
         } else {
             let yamlFileName = "udg.yml"
-            configPath = URL(fileURLWithPath: currentWorkingDirectory()).appendingPathComponent(yamlFileName)
+            configPath = cwd.appendingPathComponent(yamlFileName)
         }
         
         var templatePath: URL? = nil
         if let option = options.first(where: { $0.option == .template }) {
-            templatePath = URL(fileURLWithPath: option.value)
+            templatePath = cwd.appendingPathComponent(option.value)
         }
 
         return (outputURL: outputURL, configPath: configPath, templatePath: templatePath)
