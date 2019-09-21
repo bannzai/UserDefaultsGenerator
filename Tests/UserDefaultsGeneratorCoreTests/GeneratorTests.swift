@@ -113,12 +113,12 @@ public enum UDGIntKey: String {
             let got = userDefaultsExtensions(configurations: configurations)
             let expected = """
             
-            // MARK: - UserDefaults Any Extension
+            // MARK: - UserDefaults Array Extension
             extension UserDefaults {
-            \(tab)public func object(forKey key: UDGAnyKey) -> [Any]? {
-            \(tab)\(tab)return object(forKey: key.rawValue)
+            \(tab)public func array(forKey key: UDGArrayKey) -> [Any]? {
+            \(tab)\(tab)return array(forKey: key.rawValue)
             \(tab)}
-            \(tab)public func set(_ value: [Any]?, forKey key: UDGAnyKey) {
+            \(tab)public func set(_ value: [Any]?, forKey key: UDGArrayKey) {
             \(tab)\(tab)set(value, forKey: key.rawValue)
             \(tab)\(tab)synchronize()
             \(tab)}
