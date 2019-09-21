@@ -5,3 +5,13 @@
   type: Bool
   key: DarkMode
 
+- name: XYZ
+  type: Array
+
+- name: ABC
+  type: Any
+- name: DEF
+  type: Any
+
+- name: StringArray
+  type: StringArray
