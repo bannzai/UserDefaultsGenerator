@@ -33,11 +33,11 @@ private func buildArguments(_ configurations: [Configuration]) -> [String: Any] 
     let groupedConfigurations = configurations.grouped { $0.type }.ordered()
     return [
         "groupedConfigurations": groupedConfigurations
-            .map { (key, configurations) -> [String: Any] in
+            .map { (swiftType, configurations) -> [String: Any] in
                 return [
-                    "key": key,
-                    "typeName": key.typeName,
-                    "getterMethodName": key.getterMethodName,
+                    "key": swiftType,
+                    "typeName": swiftType.typeName,
+                    "getterMethodName": swiftType.getterMethodName,
                     "configurations": configurations
                         .map { configuration -> [String: Any] in
                             return [
