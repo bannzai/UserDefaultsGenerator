@@ -7,23 +7,53 @@
 
 import Foundation
 
-public typealias RunnerArguments = [String]
-
 public protocol Runner {
     static var commandName: String { get }
-    func run(arguments: RunnerArguments) throws
+    init()
+    func run() throws
 }
 
-public struct GenerateRunner: Runner  {
+public struct GenerateRunner: Runner {
     public static let commandName: String = "generate"
-    public func run(arguments: RunnerArguments) throws {
-        
+    
+    // TODO: Use Opaque Result Type
+    private let argumentParser: GenerateRunnerArgumentParser
+    private let configurationParser: ConfigurationParser
+    private let generator: Generator
+    public init(
+        argumentParser: GenerateRunnerArgumentParser,
+        configurationParser: ConfigurationParser,
+        generator: Generator
+        ) {
+        self.argumentParser = argumentParser
+        self.configurationParser = configurationParser
+        self.generator = generator
+    }
+    
+    public init() {
+        self.init(argumentParser: GenerateRunnerArgumentParser(), configurationParser: YAMLParser(), generator: GeneratorImpl())
+    }
+    
+    public func run() throws {
+        let options = argumentParser.parse()
+        let configurations = try configurationParser.parse(yamlFilePath: options.configPath)
+        try generator.generate(outputPath: options.outputURL, configurations: configurations)
     }
 }
 
 public struct SetupRunner: Runner  {
     public static let commandName: String = "setup"
-    public func run(arguments: RunnerArguments) throws {
+    
+    public init() { }
+    public func run() throws {
+        let content = """
+- name: numberOfIndent
+type: Int
 
+- name: UserSelectedDarkMode
+type: Bool
+key: DarkMode
+"""
+        try content.write(to: URL(fileURLWithPath: currentWorkingDirectory()), atomically: true, encoding: .utf8)
     }
 }
