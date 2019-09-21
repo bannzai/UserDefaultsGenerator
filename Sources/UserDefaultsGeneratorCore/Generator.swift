@@ -19,7 +19,11 @@ public struct GeneratorImpl: Generator {
         self.outputPath = outputPath
     }
     public func generate(configurations: [Configuration]) throws {
-        let content = enumDefinition(configurations: configurations) + "\n" + userDefaultsExtensions(configurations: configurations)
+        let content = """
+        import Foundation
+        \(enumDefinition(configurations: configurations))
+        \(userDefaultsExtensions(configurations: configurations))
+        """
         try content.write(to: outputPath, atomically: true, encoding: .utf8)
     }
     
