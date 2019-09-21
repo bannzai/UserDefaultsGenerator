@@ -8,20 +8,17 @@ public struct Configuration: Decodable {
 }
 
 public protocol ConfigurationParser {
-    func parse() throws -> [Configuration]
+    func parse(yamlFilePath: URL) throws -> [Configuration]
 }
 
 public struct YAMLParser: ConfigurationParser {
-    let yamlFilePath: URL
-    public init(yamlFilePath: URL) {
-        self.yamlFilePath = yamlFilePath
-    }
-    func read() throws -> String {
+    public init() { }
+    func read(yamlFilePath: URL) throws -> String {
         return try String(contentsOf: yamlFilePath)
     }
-    public func parse() throws -> [Configuration] {
+    public func parse(yamlFilePath: URL) throws -> [Configuration] {
         let decoder = YAMLDecoder()
-        let decoded = try decoder.decode([Configuration].self, from: try read())
+        let decoded = try decoder.decode([Configuration].self, from: try read(yamlFilePath: yamlFilePath))
         return decoded
     }
 }

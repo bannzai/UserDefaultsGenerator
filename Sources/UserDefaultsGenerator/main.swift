@@ -1,29 +1,30 @@
 import Foundation
 import UserDefaultsGeneratorCore
 
-let path: String
+let runners: [Runner.Type] = [
+    GenerateRunner.self,
+    SetupRunner.self,
+    HelpRunner.self
+]
 
-switch ProcessInfo.processInfo.environment["YMD_DEBUG_CWD"] {
-case nil:
-    path = FileManager.default.currentDirectoryPath
-case let cwd?:
-    path = cwd
-}
-let yamlFileName = "udg.yml"
-let url = URL(fileURLWithPath: path).appendingPathComponent(yamlFileName)
-let parser = YAMLParser(yamlFilePath: url)
-do {
-    let configurations = try parser.parse()
-    print(configurations)
-    let swiftFileName = "UserDefaultsGenerator.generated.swift"
-    let generator = GeneratorImpl(
-        configurations: configurations,
-        outputPath: URL(fileURLWithPath: path).appendingPathComponent(swiftFileName)
-    )
-    try generator.generate(configurations: configurations)
-} catch {
-    print(error.localizedDescription)
+let arguments = ProcessInfo.processInfo.arguments
+if arguments.count <= 1 || !runners.contains { $0.commandName == arguments[1] } {
+    print("""
+Missing argument.
+See below
+\(HelpRunner.help())
+""")
     exit(1)
 }
 
+let subCommand = ProcessInfo.processInfo.arguments[1]
+guard let command = runners.first(where: { $0.commandName == subCommand }) else {
+    print("""
+Unexpected sub command \(subCommand)
+See below
+\(HelpRunner.help())
+""")
+    exit(1)
+}
 
+try command.init().run()
