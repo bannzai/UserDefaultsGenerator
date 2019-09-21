@@ -40,6 +40,24 @@ public enum UDGIntKey: String {
             """
             XCTAssertEqual(got, expected)
         }
+        XCTContext.runActivity(named: "When configuration for aliasName != typeName") { (_) in
+            
+            let type = SwiftType.array
+            XCTAssert(type.aliasName != type.typeName)
+            
+            let configurations: [Configuration] = [
+                Configuration(name: "enumKey", type: type, key: nil),
+            ]
+            let got = enumDefinition(configurations: configurations)
+            let expected = """
+            
+            public enum UDGArrayKey: String {
+            \(tab)case enumKey
+            }
+            
+            """
+            XCTAssertEqual(got, expected)
+        }
     }
     
     func testUserDefaultsExtensions() {
