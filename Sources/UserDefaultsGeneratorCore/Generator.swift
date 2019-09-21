@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import StencilSwiftKit
 
 let tab = "\t"
 public protocol Generator {
@@ -18,52 +19,54 @@ public struct GeneratorImpl: Generator {
         self.outputPath = outputPath
     }
     public func generate(configurations: [Configuration]) throws {
-        let content = enumDefinition(configurations: configurations) + "\n" + userDefaultsExtensions(configurations: configurations)
+        let content = """
+        import Foundation
+        \(enumDefinition(configurations: configurations))
+        \(userDefaultsExtensions(configurations: configurations))
+        """
         try content.write(to: outputPath, atomically: true, encoding: .utf8)
     }
     
 }
 
+private func buildArguments(_ configurations: [Configuration]) -> [String: Any] {
+    let groupedConfigurations = configurations.grouped { $0.type }.ordered()
+    return [
+        "groupedConfigurations": groupedConfigurations
+            .map { (key, configurations) -> [String: Any] in
+                return [
+                    "key": key,
+                    "typeName": key.typeName,
+                    "getterMethodName": key.getterMethodName,
+                    "configurations": configurations
+                        .map { configuration -> [String: Any] in
+                            return [
+                                    "name": configuration.name,
+                                    "key": configuration.key ?? ""
+                                ]
+                            
+                    }
+                ]
+                
+        }
+        
+    ]
+}
+
 func enumDefinition(configurations: [Configuration]) -> String {
-    let caseMap: (Configuration) -> String = { configuration in
-        switch configuration.key {
-        case nil:
-            return "case " + configuration.name
-        case let key?:
-            return "case " + configuration.name + " = " + "\"\(key)\""
-        }
-    }
-    return configurations
-        .grouped { $0.type }
-        .ordered()
-        .map { grouped in
-            let values = grouped.value.map(caseMap).joined(separator: "\n")
-            return """
-            public enum UDG\(grouped.key.rawValue)Key: String {
-            \(tab)\(values)
-            }
-            """
-        }
-        .joined(separator: "\n")
+    return try! StencilSwiftTemplate(
+        templateString: TemplateType.enum.template,
+        environment: stencilSwiftEnvironment(),
+        name: "enum.swift.stencil"
+        )
+        .render(buildArguments(configurations))
 }
 
 func userDefaultsExtensions(configurations: [Configuration]) -> String {
-    return configurations
-        .grouped { $0.type }
-        .ordered()
-        .map { grouped in
-            let key = grouped.key
-            return """
-            extension UserDefaults {
-            \(tab)public func \(key.getterMethodName)(forKey key: UDG\(key.rawValue)Key) -> \(key.rawValue) {
-            \(tab)\(tab)return \(key.getterMethodName)(forKey: key.rawValue)
-            \(tab)}
-            \(tab)public func set(_ value: \(key.rawValue), forKey key: UDG\(key.rawValue)Key) {
-            \(tab)\(tab)set(value, forKey: key.rawValue)
-            \(tab)\(tab)synchronize()
-            \(tab)}
-            }
-            """
-        }
-        .joined(separator: "\n")
+    return try! StencilSwiftTemplate(
+        templateString: TemplateType.extension.template,
+        environment: stencilSwiftEnvironment(),
+        name: "extension.swift.stencil"
+        )
+        .render(buildArguments(configurations))
 }

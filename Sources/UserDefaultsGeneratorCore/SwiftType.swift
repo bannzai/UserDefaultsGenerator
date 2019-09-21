@@ -19,6 +19,10 @@ public enum SwiftType: String, Decodable {
     case int = "Int"
     case float = "Float"
     case double = "Double"
+    
+    var typeName: String {
+        return rawValue
+    }
 
     var getterMethodName: String {
         switch self {

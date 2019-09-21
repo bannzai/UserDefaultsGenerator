@@ -18,9 +18,11 @@ class GeneratorTests: XCTestCase {
             ]
             let got = enumDefinition(configurations: configurations)
             let expected = """
+
 public enum UDGIntKey: String {
 \(tab)case enumKey
 }
+
 """
             XCTAssertEqual(got, expected)
         }
@@ -30,9 +32,11 @@ public enum UDGIntKey: String {
             ]
             let got = enumDefinition(configurations: configurations)
             let expected = """
+
             public enum UDGBoolKey: String {
             \(tab)case enumKey = "Custom"
             }
+
             """
             XCTAssertEqual(got, expected)
         }
@@ -45,6 +49,8 @@ public enum UDGIntKey: String {
             ]
             let got = userDefaultsExtensions(configurations: configurations)
             let expected = """
+
+            // MARK: - UserDefaults Int Extension
             extension UserDefaults {
             \(tab)public func integer(forKey key: UDGIntKey) -> Int {
             \(tab)\(tab)return integer(forKey: key.rawValue)
@@ -54,6 +60,7 @@ public enum UDGIntKey: String {
             \(tab)\(tab)synchronize()
             \(tab)}
             }
+
             """
             XCTAssertEqual(got, expected)
         }
@@ -63,6 +70,8 @@ public enum UDGIntKey: String {
             ]
             let got = userDefaultsExtensions(configurations: configurations)
             let expected = """
+            
+            // MARK: - UserDefaults Bool Extension
             extension UserDefaults {
             \(tab)public func bool(forKey key: UDGBoolKey) -> Bool {
             \(tab)\(tab)return bool(forKey: key.rawValue)
@@ -72,6 +81,7 @@ public enum UDGIntKey: String {
             \(tab)\(tab)synchronize()
             \(tab)}
             }
+
             """
             XCTAssertEqual(got, expected)
         }
