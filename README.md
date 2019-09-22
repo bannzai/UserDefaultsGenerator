@@ -66,6 +66,28 @@ extension UserDefaults {
 
 ```
 
+### udg command option
+```shell
+$ udg --help
+Usage:
+  udg [command]
+
+Available Commands:
+  generate    generate [--output $OUTPUT_PATH] [--config $CONFIG_PATH] [--template $TEMPLATE_PATH]
+  setup       setup can be generated example config file
+  help        Help about any command
+```
+
+#### udg generate command option description
+|  Option  |  Description  |  
+| ---- | ---- |
+|  --output  |  Output path for generated swift code. Default is UserDefaultsGenerator.generated.swift |
+|  --config  |  Input configuration path of yml file. Default is ./udg.yml |
+|  --template  |  Using template path about swift code. Template format is stencil.  |
+
+
+
+
 ## Yaml Configuration 
 |  Key  |  Description  |  Required/Optional  |
 | ---- | ---- | ---- |
